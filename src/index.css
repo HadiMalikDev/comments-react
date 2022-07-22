@@ -82,12 +82,25 @@ code {
 }
 .deleteOverlayButton {
   background-color: #ed6368;
-
+}
+.updateComment {
+  grid-row: 3;
+  grid-column: 3;
+  justify-self: right;
+}
+.updateComment button{
+  border: none;
+  background-color: #5357b6;
+  padding: 0.9rem 1.4rem;
+  color: #f2f2f2;
+  border-radius: 8px;
+  font-weight: 100;
+  cursor: pointer;
 }
 /*INPUT SECTION CSS*/
 .inputSection {
+  margin-top: 5px;
   background-color: white;
-  flex-grow: 4;
   display: grid;
   grid-template-columns: max-content 1fr max-content;
   grid-template-rows: 2fr 1fr;
@@ -122,6 +135,7 @@ code {
 .comments {
   padding: 20px;
   flex-grow: 6;
+  flex-basis: 80vh;
   overflow-y: scroll;
 }
 .comment {
@@ -131,9 +145,17 @@ code {
   border-radius: 8px;
   padding: 16px;
   display: grid;
+  row-gap: 1rem;
   grid-template-columns: 1fr 4fr 1fr;
-  grid-template-rows: repeat(3, fit-content(100%));
+  grid-template-rows: repeat(2, fit-content(100%)) minmax(0, 1fr);
   grid-auto-flow: row;
+}
+.replySection{
+  margin-top: 5px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
 }
 .commentorDescription {
   display: flex;
@@ -143,8 +165,7 @@ code {
 .content {
   color: #67727e;
   line-height: 1.4rem;
-  margin: 1rem 0px;
-  grid-row: 2;
+  grid-row: 2/3;
   grid-column: 1/3;
 }
 .userDetails {
@@ -261,7 +282,7 @@ code {
     margin: 0px 24px auto;
   }
   .content {
-    grid-row: 2/4;
+    grid-row: 2/3;
     grid-column: 2/4;
   }
   .actions {
@@ -280,7 +301,7 @@ code {
     grid-row: 1;
     grid-column: 3;
   }
-  .overlay{
+  .overlay {
     width: 40vw;
   }
 }

@@ -1,15 +1,21 @@
 import React from "react";
 import CommentorInfo from "./components/CommentorInfo";
+import InputSection from "./components/InputSection";
 import Overlay from "./components/Overlay";
 import RateComment from "./components/RateComment";
-import MapReplyToComment from "./utils/MapReplyToComment";
-export default function Comment({ commentProps, replies }) {
+export default function Comment({
+  commentProps,
+  children,
+  deleteComment,
+  updateComment,
+  replyToComment,
+}) {
   const { imageUrl, username, commentedAt, description, score, replyingTo } =
     commentProps;
 
   const [isSelf, setIsSelf] = React.useState(false);
   const [isEdit, setEdit] = React.useState(false);
-
+  const [isReplying, setReply] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
   React.useEffect(
     function () {
@@ -17,6 +23,8 @@ export default function Comment({ commentProps, replies }) {
     },
     [username]
   );
+  const [contentText, setContentText] = React.useState(description);
+
   return (
     <div>
       {showModal && (
@@ -36,6 +44,7 @@ export default function Comment({ commentProps, replies }) {
             className="deleteOverlayButton"
             onClick={() => {
               setShowModal(false);
+              deleteComment();
             }}
           >
             YES,DELETE
@@ -51,7 +60,12 @@ export default function Comment({ commentProps, replies }) {
         />
         <div className="content">
           {isEdit ? (
-            <textarea>{description}</textarea>
+            <textarea
+              value={contentText}
+              onChange={(event) => setContentText(event.target.value)}
+            >
+              {description}
+            </textarea>
           ) : (
             <p>
               {replyingTo && (
@@ -62,6 +76,18 @@ export default function Comment({ commentProps, replies }) {
           )}
         </div>
         <RateComment score={score} />
+        {isEdit && (
+          <div className="updateComment">
+            <button
+              onClick={() => {
+                updateComment(contentText);
+                setEdit(false);
+              }}
+            >
+              UPDATE
+            </button>
+          </div>
+        )}
         <div className="actions">
           {isSelf ? (
             <>
@@ -75,18 +101,23 @@ export default function Comment({ commentProps, replies }) {
               </div>
             </>
           ) : (
-            <div className="reply">
+            <div className="reply" onClick={() => setReply((prev) => !prev)}>
               <img src="images/icon-reply.svg" alt=""></img>
               <p>Reply</p>
             </div>
           )}
         </div>
       </div>
-      {replies && (
-        <div className="commentChildren">
-          {replies.map((reply) => MapReplyToComment(reply))}
-        </div>
+      {isReplying && (
+        <InputSection
+          isReplying={true}
+          uploadComment={(content) => {
+            replyToComment(content);
+            setReply(false);
+          }}
+        />
       )}
+      {children && <div className="commentChildren">{children}</div>}
     </div>
   );
 }
