@@ -7,7 +7,7 @@ export default function CommentorDescription({
   isSelf
 }) {
   return (
-    <div className="commentorDescription">
+    <div className="userDetails">
       <img className="profilePicture" alt="Profile" src={`${imageUrl}`}></img>
       <p className="username">{username}</p>
       {isSelf && <p className="tag">you</p>}
