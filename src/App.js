@@ -8,7 +8,7 @@ export default function App() {
   function deleteComment(parentCommentIndex, commentIdIndex) {
     //Check if user deleting parent comment.
     //If comment has no parent, then it is parent comment
-    if (!parentCommentIndex) {
+    if (parentCommentIndex===null) {
       return setComments((prev) => {
         const newArray = [...prev];
         newArray.splice(commentIdIndex, 1);
